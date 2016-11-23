@@ -11,46 +11,70 @@ std::string slurp(std::ifstream& in) {
     return sstr.str();
 }
 
-void bracketOpen() {
-    return;
+const char* bracketOpen(char *head, const char *prog) {
+    int matches = 1;
+    if (*head == 0) {
+        while (matches != 0) {
+            ++prog;
+            if (*prog == '[') {
+                ++matches;
+            } else if (*prog == ']') {
+                --matches;
+            }
+        }
+    }
+    return prog;
 }
 
-void bracketClosed() {
-    return;
+const char *bracketClosed(char *head, const char *prog) {
+    if (*head != 0) {
+        int matches = 1;
+        while (matches != 0) {
+            --prog;
+            if (*prog == '[') {
+                --matches;
+            } else if (*prog == ']') {
+                ++matches;
+            }
+        }
+    }
+    return prog;
 }
 
 void interpret(std::string& instructions) {
-    int head{0};
     std::array<char, TAPE_SIZE> tape{};
+    char *head = tape.data();
+    const char *prog = instructions.c_str();
 
-    for (auto instr = instructions.cbegin(); instr != instructions.cend(); ++instr) {
-        //std::cout << *instr << std::endl;
-        switch (*instr) {
-            case '>' : 
+    while (*prog) {
+        //std::cout << *prog << std::endl;
+        switch (*prog) {
+            case '>':
                 ++head; 
                 break;
-            case '<' :
+            case '<':
                 --head; 
                 break;
-            case '+' : 
-                ++tape[head]; 
+            case '+': 
+                ++(*head); 
                 break;
-            case '-' : 
-                --tape[head];
+            case '-': 
+                --(*head);
                 break;
-            case '.' : 
-                std::cout << tape[head];
+            case '.': 
+                std::cout << *head;
                 break;
-            case ',' : 
-                std::cin >> tape[head];
+            case ',': 
+                std::cin >> *head;
                 break;
-            case '[' :
-                bracketOpen();
+            case '[':
+                prog = bracketOpen(head, prog);
                 break;
             case ']' :
-                bracketClosed();
+                prog = bracketClosed(head, prog);
                 break;
         }
+        ++prog;
     }
 }
 
