@@ -8,7 +8,10 @@
 #include <iostream>
 #include <array>
 
-const char* bracketOpen(char *head, const char *prog) {
+// If the value at head is 0, jump to the matching ] character
+// else, return current prog
+//
+const char* bracketOpen(const char *const head, const char *const prog) {
     int matches = 1;
     if (*head == 0) {
         while (matches != 0) {
@@ -23,7 +26,10 @@ const char* bracketOpen(char *head, const char *prog) {
     return prog;
 }
 
-const char *bracketClosed(char *head, const char *prog) {
+// If the value at head is not 0, jump to previous matching [ character
+// else, return current prog
+//
+const char *bracketClosed(const char *head, const char *prog) {
     if (*head != 0) {
         int matches = 1;
         while (matches != 0) {
@@ -38,6 +44,8 @@ const char *bracketClosed(char *head, const char *prog) {
     return prog;
 }
 
+// Sequentially evaluate brainfuck commands
+//
 void BrainFuck::interpret(const char *prog) {
     std::array<char, BrainFuck::TAPE_SIZE> tape{};
     char *head = tape.data();
