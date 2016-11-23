@@ -11,9 +11,9 @@
 // If the value at head is 0, jump to the matching ] character
 // else, return current prog
 //
-const char* bracketOpen(const char *const head, const char *const prog) {
+const char* bracketOpen(const char& value, const char *prog) {
     int matches = 1;
-    if (*head == 0) {
+    if (value == 0) {
         while (matches != 0) {
             ++prog;
             if (*prog == '[') {
@@ -29,8 +29,8 @@ const char* bracketOpen(const char *const head, const char *const prog) {
 // If the value at head is not 0, jump to previous matching [ character
 // else, return current prog
 //
-const char *bracketClosed(const char *head, const char *prog) {
-    if (*head != 0) {
+const char *bracketClosed(const char& value, const char *prog) {
+    if (value != 0) {
         int matches = 1;
         while (matches != 0) {
             --prog;
@@ -71,10 +71,10 @@ void BrainFuck::interpret(const char *prog) {
                 std::cin >> *head;
                 break;
             case '[':
-                prog = bracketOpen(head, prog);
+                prog = bracketOpen(*head, prog);
                 break;
-            case ']' :
-                prog = bracketClosed(head, prog);
+            case ']':
+                prog = bracketClosed(*head, prog);
                 break;
         }
         ++prog;

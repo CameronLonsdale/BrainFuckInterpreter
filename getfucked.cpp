@@ -22,7 +22,6 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    // Slurp source code into a string
     std::string instr{};
     std::ifstream source(argv[1]);
     if (source.is_open()) { instr = slurp(source); }
